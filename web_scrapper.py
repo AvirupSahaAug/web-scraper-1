@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 months=["0"+str(i) for i in range(1,10)]
 months.extend(['10','11','12'])
 
@@ -56,6 +57,29 @@ for i in range(len(table)):
     print(i)
     print(m)
     
+
+####  making a csv using the data.
+m2=['jan','feb','mar', 'apr','may','jun','jul','aug','sep','oct','nov','dec']
+trans=[]
+for i in table:
+    a=[]
+    for j in range(len(i[0])):
+        a.append([i[0][j],i[1][j]])
+    trans.append(a)
+print(trans)
+with open("weather.csv",mode="w") as csvfile:
+    field=['day','max_temp','min_temp']
+    writer=csv.DictWriter(csvfile,fieldnames=field)
+    writer.writeheader()
+    for i in range(len(trans)):
+        val=trans[i]
+        
+        for k in range(len(val)):
+            j=val[k]
+            writer.writerow({'day':str(k+1)+"th "+m2[i],'max_temp':j[0],"min_temp":j[1]})
+
+
+
 
 
 #### Plotting Section
